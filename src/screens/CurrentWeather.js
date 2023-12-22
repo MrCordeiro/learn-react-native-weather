@@ -4,29 +4,47 @@ import { Feather } from '@expo/vector-icons';
 import RowText from '../components/RowText';
 import { weatherType } from '../utils/weatherType';
 
-const CurrentWeather = () => (
-  <SafeAreaView style={styles.wrapper}>
-    <View style={styles.headWrapper}>
-      <Feather name="sun" size={100} color="black" />
-      <Text style={styles.temp}>6</Text>
-      <Text style={styles.feels}>Feels likes 5</Text>
+const CurrentWeather = ({ weatherData }) => {
+  const {
+    main: { temp, feels_like, temp_min, temp_max },
+    weather,
+  } = weatherData;
+
+  const weatherCondition = weather[0].main;
+
+  return (
+    <SafeAreaView
+      style={
+        (styles.wrapper,
+        { backgroundColor: weatherType[weatherCondition].backgroundColor })
+      }
+    >
+      <View style={styles.headWrapper}>
+        <Feather
+          name={weatherType[weatherCondition].icon}
+          size={100}
+          color="white"
+        />
+        <Text style={styles.temp}>{temp}</Text>
+        <Text style={styles.feels}>{`Feels likes ${feels_like}`}</Text>
+        <RowText
+          messageOne={`High: ${temp_max}° `}
+          messageTwo={`Low: ${temp_min}° `}
+          containerStyles={styles.highLowWrapper}
+          messageOneStyles={styles.highLow}
+          messageTwoStyles={styles.highLow}
+        />
+      </View>
       <RowText
-        messageOne={'High: 8'}
-        messageTwo={'Low: 8'}
-        containerStyles={styles.highLowWrapper}
-        messageOneStyles={styles.highLow}
-        messageTwoStyles={styles.highLow}
+        messageOne={weather[0].description}
+        messageTwo={weatherType[weatherCondition].message}
+        containerStyles={styles.bodyWrapper}
+        messageOneStyles={styles.description}
+        messageTwoStyles={styles.message}
       />
-    </View>
-    <RowText
-      messageOne={"It's sunny"}
-      messageTwo={weatherType["Thunderstorm"].message}
-      containerStyles={styles.bodyWrapper}
-      messageOneStyles={styles.description}
-      messageTwoStyles={styles.message}
-    />
-  </SafeAreaView>
-);
+    </SafeAreaView>
+  );
+};
 
 export const styles = StyleSheet.create({
   wrapper: {

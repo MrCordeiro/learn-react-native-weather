@@ -12,7 +12,7 @@ const TabBarIcon = ({ focused, name }) => (
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs = ({ weather }) => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -33,25 +33,29 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Current"
-        component={CurrentWeather}
         options={{
           tabBarIcon: (props) => <TabBarIcon {...props} name="droplet" />,
         }}
-      />
+      >
+        {() => <CurrentWeather weatherData={weather.list[0]} />}
+      </Tab.Screen>
       <Tab.Screen
         name="Upcoming"
         component={UpcomingWeather}
         options={{
           tabBarIcon: (props) => <TabBarIcon {...props} name="clock" />,
         }}
-      />
+      >
+        {() => <UpcomingWeather weatherData={weather.list} />}
+      </Tab.Screen>
       <Tab.Screen
         name="City"
-        component={City}
         options={{
           tabBarIcon: (props) => <TabBarIcon {...props} name="home" />,
         }}
-      />
+      >
+        {() => <City weatherData={weather.city} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };

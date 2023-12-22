@@ -7,9 +7,12 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
+import moment from 'moment';
 import IconText from '../components/IconText';
 
-const City = () => {
+const City = ({ weatherData }) => {
+  const { name, country, population, sunrise, sunset } = weatherData;
+
   const {
     container,
     overlay,
@@ -30,13 +33,13 @@ const City = () => {
         style={imageLayout}
       >
         <View style={overlay} />
-        <Text style={[cityText, cityName]}>Portree</Text>
-        <Text style={[cityText, countryName]}>Scotland</Text>
+        <Text style={[cityText, cityName]}>{name}</Text>
+        <Text style={[cityText, countryName]}>{country}</Text>
         <View style={populationWraper}>
           <IconText
             iconName={'user'}
-            iconColor={'red'}
-            bodyText={'10,000'}
+            iconColor={'white'}
+            bodyText={`Population: ${population}`}
             bodyTextStyles={populationText}
           />
         </View>
@@ -44,13 +47,13 @@ const City = () => {
           <IconText
             iconName={'sunrise'}
             iconColor={'white'}
-            bodyText={'10:46:23 am'}
+            bodyText={moment(sunrise).format('h:mm:ss a')}
             bodyTextStyles={riseSetText}
           />
           <IconText
             iconName={'sunset'}
             iconColor={'white'}
-            bodyText={'10:46:23 pm'}
+            bodyText={moment(sunset).format('h:mm:ss a')}
             bodyTextStyles={riseSetText}
           />
         </View>
