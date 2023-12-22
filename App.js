@@ -8,7 +8,7 @@ import { useGetWeather } from './src/hooks/useGetWeather';
 const App = () => {
   const [isLoading, errorMsg, weather] = useGetWeather();
 
-  if (weather && weather.list) {
+  if (weather && weather.list && !isLoading) {
     return (
       <NavigationContainer>
         <Tabs weather={weather} />
@@ -16,13 +16,12 @@ const App = () => {
     );
   }
 
-  console.log(errorMsg);
   return (
     <View style={styles.container}>
-      {isLoading ? (
-        <ActivityIndicator size={'large'} color={'blue'} />
-      ) : (
+      {errorMsg ? (
         <ErrorItem message={errorMsg} />
+      ) : (
+        <ActivityIndicator size={'large'} color={'blue'} />
       )}
     </View>
   );
